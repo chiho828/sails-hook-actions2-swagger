@@ -52,8 +52,25 @@
           deepLinking: true,
           presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
           plugins: [SwaggerUIBundle.plugins.DownloadUrl],
-          layout: "StandaloneLayout"
+          layout: "StandaloneLayout",
+          responseInterceptor: function (response) {
+            if (response.status == 201) {
+              if (response.url.indexOf('tokens') >= 0) {
+                window.localStorage.setItem('token', response.body.token);
+              }
+            }
+            return response;
+          }
         });
+
+        var token = window.localStorage.getItem('token');
+
+        if (token) {
+          setTimeout(function() {
+            ui.preauthorizeApiKey("Authorization", "Bearer " + token);
+          }, 1000);
+        }
+
         window.ui = ui;
       };
     </script>

@@ -38,10 +38,6 @@ module.exports = {
         },
         host: "localhost:1337",
         basePath: "/",
-        schemes: [
-            "http",
-            "https"
-        ],
         externalDocs: {
             url: "http://www.logisticinfotech.com"
         },
