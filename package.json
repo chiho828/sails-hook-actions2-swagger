@@ -1,6 +1,6 @@
 {
-    "name": "@logisticinfotech/sails-hook-actions2-swagger",
-    "version": "0.0.9",
+    "name": "@chiho828/sails-hook-actions2-swagger",
+    "version": "0.1.0",
     "description": "sails hook for generating swagger.json and its ui",
     "main": "index.js",
     "scripts": {
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/logisticinfotech/sails-hook-actions2-swagger.git"
+        "url": "git+https://github.com/chiho828/sails-hook-actions2-swagger.git"
     },
     "keywords": [
         "sails v1",
