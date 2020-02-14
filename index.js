@@ -148,7 +148,7 @@ module.exports = function swaggerGenerator(sails) {
           objUrl.actionInputs = actionInputs;
           objUrl.tags = [tag];
           objUrl.summary = summary;
-          objUrl.consumes = ["application/json"];
+          objUrl.consumes = ["application/json", "multipart/form-data"];
           objUrl.produces = ["application/json"];
           objUrl.responses = swaggerConfig.defaults.responses;
           objUrl.security = swaggerConfig.defaults.security;
@@ -248,6 +248,11 @@ module.exports = function swaggerGenerator(sails) {
     if (objUrl.methodType == "post" || objUrl.methodType == "put") {
         obj = generateBodyData(objUrl.actionInputs);
         params.push(obj);
+
+        if (objUrl.actionInputs['image']) {
+          file = generateFileData(objUrl.actionInputs);
+          params.push(file);
+        }
     } else {
         let tempObj = JSON.parse(JSON.stringify(generatePathData(objUrl.actionInputs, 'query')));
         for (let i = 0; i < tempObj.length; i++) {
@@ -299,9 +304,9 @@ module.exports = function swaggerGenerator(sails) {
       }
     };
     for (const key in actionInputs) {
-      if (actionInputs.hasOwnProperty(key)) {
+      if (actionInputs.hasOwnProperty(key) && actionInputs[key].type !== 'ref') {
         obj.schema.properties[key] = {
-          type: actionInputs[key].type === 'ref' ? 'array' : actionInputs[key].type,
+          type: actionInputs[key].type
         };
 
         if (actionInputs[key].description) {
@@ -316,6 +321,17 @@ module.exports = function swaggerGenerator(sails) {
         }
       }
     }
+    return obj;
+  }
+
+  function generateFileData(actionInputs) {
+    let obj = {
+      name: "image",
+      in: "formData",
+      type: "file",
+      description: "image upload"
+    };
+
     return obj;
   }
 
